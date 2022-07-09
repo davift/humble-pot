@@ -8,5 +8,5 @@ In another hand, Humble-Pot is meant to run in a container that can be stand-alo
 
 Use cases:
 
-![Network Architecture](https://github.com/davift/humble-pot/blob/master/humble-pot.drawio.png)
+![Network Architecture](https://github.com/davift/humble-pot/raw/main/humble-pot.drawio.png)
 
