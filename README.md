@@ -1,6 +1,6 @@
 # humble-pot
 
-Humble-Pot is a lightweight honey-pot container application.
+Humble-Pot is a lightweight (canary mine) honey-pot container application.
 
 A fully fledged honey-pot appliance such as [tpotce](https://github.com/telekom-security/tpotce) or [opencanary](https://github.com/thinkst/opencanary) can be incredibly complex and full of features but it also requires a lot of computing resources an usually a dedicated machine to run it on.
 
