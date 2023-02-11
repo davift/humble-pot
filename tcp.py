@@ -2,12 +2,21 @@
 import socket
 import threading
 
-def listener(PORT):
+# Speficy the IP you want to bind on to avoid conflict the services running on the loopback interface.
+BIND = '0.0.0.0'
+# Single port (e.g. NFS)
+PORTS = [2049]
+# Multiple ports (e.g. SMB)
+#PORTS = [445, 139]
+# Range of ports (e.g. from 8080 to 8089, total of 10 ports)
+#PORTS = [*range(8080, 8089 + 1)]
+
+def listener(BIND, PORT):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_socket.bind(('0.0.0.0', PORT))
+    server_socket.bind((BIND, PORT))
     server_socket.listen(1)
-    print("Honeypot listening on port", PORT)
+    print("Listening on", BIND, "port", PORT)
 
     try:
         while True:
@@ -21,18 +30,10 @@ def listener(PORT):
         exit()
 
 if __name__ == '__main__':
-    # Single port (e.g. NFS)
-    ports = [2049]
-    # Multiple ports (e.g. SMB)
-    #ports = [445, 139]
-    # Range of ports (e.g. from 8080 to 8089, total of 10 ports)
-    #ports = [*range(8080, 8089 + 1)]
-
     threads = []
-    for port in ports:
-        thread = threading.Thread(target=listener, args=(port,))
+    for PORT in PORTS:
+        thread = threading.Thread(target=listener, args=(BIND, PORT,))
         threads.append(thread)
         thread.start()
     for thread in threads:
         thread.join()
-        exit()

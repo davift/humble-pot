@@ -12,8 +12,8 @@ PORT = 53
 
 # Bind the socket to a specific address and port
 server_address = (BIND, PORT)
-print('Starting up on {}:{}'.format(*server_address))
 sock.bind(server_address)
+print('Listenin on', BIND, "port", PORT)
 
 try:
     while True:
