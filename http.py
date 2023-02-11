@@ -12,12 +12,10 @@ def listener(BIND, PORT):
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind((BIND, PORT))
     server_socket.listen(1)
-    print("Listening on", BIND, "port", PORT)
 
-    try:
-        while True:
+    while True:
+        try:
             conn, address = server_socket.accept()
-            print("Connection from:", address[0], "on port:", PORT)
             data = conn.recv(1024).decode()
             if data.startswith("GET"):
                 conn.send("HTTP/1.1 401 Unauthorized\r\n".encode())
@@ -29,15 +27,21 @@ def listener(BIND, PORT):
                 if auth:
                     auth = base64.b64decode(auth).decode().split(":")
                     print("Connection from:", address[0], "on port:", PORT, "username:", auth[0], "password:", auth[1])
+                else:
+                    print("Connection from:", address[0], "on port:", PORT)
                 conn.send("WWW-Authenticate: Basic realm=\"Authentication Required\"\r\n".encode())
             conn.close()
-    except KeyboardInterrupt:
-        print('Interrupted')
-        conn.close()
-        server_socket.close()
-        exit()
+        except KeyboardInterrupt:
+            print('Interrupted')
+            conn.close()
+            server_socket.close()
+            exit()
+        except:
+            print("Connection from:", address[0], "on port:", PORT, 'error: PORTSCAN')
 
 if __name__ == '__main__':
-    listener(BIND, PORT)
+    print("Listening on", BIND, "port", PORT)
+    while True:
+        listener(BIND, PORT)
 
 exit()
