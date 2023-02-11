@@ -13,10 +13,9 @@ def listener(BIND, PORT):
     server_socket.listen(1)
     print("Listening on", BIND, "port", PORT)
 
-    try:
-        while True:
+    while True:
+        try:
             conn, address = server_socket.accept()
-            print("Connection from:", address[0], "on port:", PORT)
             conn.send("220 (vsFTPd 3.0.3)\r\n".encode())
             username = conn.recv(1024).decode().strip()
             if username.startswith("USER"):
@@ -26,13 +25,17 @@ def listener(BIND, PORT):
                 if password.startswith("PASS"):
                     password = password.split(" ")[1]
                     conn.send("530 Login incorrect.\r\n".encode())
-            print("Connection from:", address[0], "on port:", PORT, "username:", username, "password:", password)
+                print("Connection from:", address[0], "on port:", PORT, "username:", username, "password:", password)
+            else:
+                print("Connection from:", address[0], "on port:", PORT)
             conn.close()
-    except KeyboardInterrupt:
-        print(' Interrupted')
-        conn.close()
-        server_socket.close()
-        exit()
+        except KeyboardInterrupt:
+            print(' Interrupted')
+            conn.close()
+            server_socket.close()
+            exit()
+        except:
+            print("Connection from:", address[0], "on port:", PORT, "error: PORTSCAN")
 
 if __name__ == '__main__':
     listener(BIND, PORT)
