@@ -11,7 +11,7 @@ def listener(BIND, PORT):
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind((BIND, PORT))
     server_socket.listen(1)
-    print("Listening on", BIND, "port", PORT)
+    print(" Listening on:", BIND, "port:", PORT, flush=True)
 
     while True:
         try:
@@ -25,17 +25,17 @@ def listener(BIND, PORT):
                 if password.startswith("PASS"):
                     password = password.split(" ")[1]
                     conn.send("530 Login incorrect.\r\n".encode())
-                print("Connection from:", address[0], "on port:", PORT, "username:", username, "password:", password)
+                print("from:", address[0], "on port:", PORT, "username:", username, "password:", password, flush=True)
             else:
-                print("Connection from:", address[0], "on port:", PORT)
+                print("from:", address[0], "on port:", PORT, flush=True)
             conn.close()
         except KeyboardInterrupt:
-            print(' Interrupted')
+            print(' Interrupted', flush=True)
             conn.close()
             server_socket.close()
             exit()
         except:
-            print("Connection from:", address[0], "on port:", PORT, "error: PORTSCAN")
+            print("from:", address[0], "on port:", PORT, "error: PORTSCAN", flush=True)
 
 if __name__ == '__main__':
     listener(BIND, PORT)

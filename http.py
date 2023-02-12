@@ -26,21 +26,21 @@ def listener(BIND, PORT):
                         break
                 if auth:
                     auth = base64.b64decode(auth).decode().split(":")
-                    print("Connection from:", address[0], "on port:", PORT, "username:", auth[0], "password:", auth[1])
+                    print("from:", address[0], "on port:", PORT, "username:", auth[0], "password:", auth[1], flush=True)
                 else:
-                    print("Connection from:", address[0], "on port:", PORT)
+                    print("from:", address[0], "on port:", PORT, flush=True)
                 conn.send("WWW-Authenticate: Basic realm=\"Authentication Required\"\r\n".encode())
             conn.close()
         except KeyboardInterrupt:
-            print('Interrupted')
+            print('Interrupted', flush=True)
             conn.close()
             server_socket.close()
             exit()
         except:
-            print("Connection from:", address[0], "on port:", PORT, 'error: PORTSCAN')
+            print("from:", address[0], "on port:", PORT, 'error: PORTSCAN', flush=True)
 
 if __name__ == '__main__':
-    print("Listening on", BIND, "port", PORT)
+    print(" Listening on:", BIND, "port:", PORT, flush=True)
     while True:
         listener(BIND, PORT)
 

@@ -1,0 +1,20 @@
+[Unit]
+Description=HumblePot
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Environment="SMTP_HOST=<HOSTNAME-HERE>"
+Environment="SMTP_USER=<USERNAME-HERE>"
+Environment="SMTP_PASS=<PASSWORD-HERE>"
+Environment="SMTP_FROM=<FROM-HERE>"
+Environment="SMTP_TO=<TO-HERE>"
+
+Restart=always
+RestartSec=2
+WorkingDirectory=/opt/humble-pot
+ExecStart=/opt/humble-pot/humblepot.sh <SCRIPT-HERE>
+SyslogIdentifier=humblepot
+
+[Install]
+WantedBy=multi-user.target

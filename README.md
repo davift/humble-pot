@@ -38,7 +38,7 @@ It is capable of alerting when it received connection attempts to:
   - It runs a module that parses the logs and sends reports to an email address.
     - The report contains counters of the source IP, reached ports, and more.
 
-## Deployment
+## Deployment / Installation
 
 ```
 cd /opt
