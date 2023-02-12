@@ -1,10 +1,14 @@
 # humble-pot
 
-Humble-Pot is a lightweight (canary mine) honey-pot container application.
+Humble-Pot is a lightweight (canary mine) honey-pot application.
 
-A fully fledged honey-pot appliance such as [tpotce](https://github.com/telekom-security/tpotce) or [opencanary](https://github.com/thinkst/opencanary) can be incredibly complex and full of features but it also requires a lot of computing resources an usually a dedicated machine to run it on.
+A fully-fledged honey-pot appliance such as [tpotce](https://github.com/telekom-security/tpotce) or [opencanary](https://github.com/thinkst/opencanary) can be incredibly complex and full of features but also requires a lot of computing resources of a dedicated machine to run it on.
 
-In another hand, Humble-Pot is meant to run in a container that can be stand-alone in a single code single GB of RAM or using the idle capacity of another server that for instance is an FTP server but will alert if someone brute-forces/fuzzing the HTTP port.
+On the other hand, Humble-Pot was designed to run in a stand-alone server or as a container, sharing resources with other applications.
+
+It required only a single core and almost no RAM to run. These characteristics make it great for using the idle capacity of an existing server.
+
+E.g. for instance an FTP server gets tentatives to connect on the HTTP port.
 
 ## Use Cases
 
@@ -16,15 +20,29 @@ On the DMZ side of the illustration, the honey-pot is in a dedicated machine and
 
 ## Features
 
-It will capable of alert when failed connection attempts to:
+It is capable of alerting when it received connection attempts to:
 
-- SSH (coming soon)
-- FTP (coming soon)
-- HTTP Basic Authentication (coming soon)
+- TCP
+  - It listens on a single-port, multiple-ports, or a range or ports.
+    - Inbound connections are accepted and droped immediately.
+- FTP
+  - It listens on a single port where it will act as a real FTP server.
+    - Credentials are logged. It might reveal who or compromised credetials.
+- HTTP with Basic Authentication
+  - It pretends to be an HTTP server that requires basic authentication.
+    - Credentials are logged. It might reveal who or compromised credetials.
+- DNS
+  - It mimiques a DNS server but always respond with the same IP address.
+    - If the command `dig` is used it can identify and log the queried domain.
+- Email Notifications
+  - It runs a module that parses the logs and sends reports to an email address.
+    - The report contains counters of the source IP, reached ports, and more.
 
-Also able to detect brute-focing/fuzzing on the HTTP server for hidden directories and files. (coming soon)
+## Deployment
 
-The alerts are sent via SMTP that might be configured on the deployment. It is recommended to use a mailing list as a destination that could be easily managed externaly.
-
-## 
-
+```
+cd /opt
+git clone https://github.com/davift/humble-pot.git
+cd /opt/humble-pot
+./deploy.sh
+```
