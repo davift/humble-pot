@@ -41,6 +41,7 @@ It is capable of alerting when it received connection attempts to:
 ## Deployment / Installation
 
 ```
+sudo su
 cd /opt
 git clone https://github.com/davift/humble-pot.git
 cd /opt/humble-pot
